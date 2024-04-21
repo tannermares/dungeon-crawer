@@ -8,16 +8,17 @@ RSpec.describe Room do
   let(:item) { Item.new(description: 'You like it', get: 'You got it', name: 'flask', score: 10) }
   let(:npc) { Npc.new(description: 'They looketh nice', response: 'Greetings', name: 'Dennis', items: []) }
   let(:description) { 'A big room' }
+  let(:exits) { %w[south] }
   let(:name) { 'main' }
   let(:commands) { [] }
   let(:items) { [] }
   let(:npcs) { [] }
 
   context 'sanity checks' do
-    let(:described_instance) { described_class.new(description:, items:, name:, npcs:) }
+    let(:described_instance) { described_class.new(description:, exits:, name:, items:, npcs:) }
 
     context 'defaults' do
-      let(:described_instance) { described_class.new(description:, name:) }
+      let(:described_instance) { described_class.new(description:, exits:, name:) }
 
       describe '#items' do
         it { expect(described_instance.items).to eq [] }
@@ -26,6 +27,12 @@ RSpec.describe Room do
       describe '#npcs' do
         it { expect(described_instance.npcs).to eq [] }
       end
+    end
+
+    describe '#exits' do
+      subject { described_instance.exits }
+
+      it { is_expected.to eq exits }
     end
 
     describe '#items' do

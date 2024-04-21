@@ -55,7 +55,7 @@ class Game
             }
           ],
           decorations: [],
-          nps: [],
+          npcs: [],
           exits: %w[north south dennis]
         },
         {
@@ -65,7 +65,7 @@ class Game
             {
               name: 'rope',
               score: -1,
-              description:"It looks okay. You've seen better.",
+              description: "It looks okay. You've seen better.",
               get: 'You attempt to take ye ROPE but alas it is enchanted! It glows a mustard red and smells like a public privy. The ROPE wraps round your neck and hangs you from parapets. With your last breath, you wonder what parapets are. GAME OVER. Your score was:__. Play again? (Y/N)'
             }
           ],
@@ -75,7 +75,7 @@ class Game
               description: "Well, they're parapets. This much we know for sure."
             }
           ],
-          nps: [],
+          npcs: [],
           exits: %w[south]
         },
         {
@@ -96,7 +96,7 @@ class Game
             }
           ],
           decorations: [],
-          nps: [],
+          npcs: [],
           exits: %w[north]
         },
         {
@@ -109,7 +109,7 @@ class Game
               description: 'Man, that art a nice jimberjam.'
             }
           ],
-          nps: [
+          npcs: [
             {
               name: 'dennis',
               description: 'That jimberjam really makes the outfit.',

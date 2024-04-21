@@ -2,10 +2,11 @@
 
 # A Room may have items and maybe special commands outside of normal game commands.
 class Room
-  attr_reader :description, :name, :decorations, :items, :npcs
+  attr_reader :description, :exits, :name, :decorations, :items, :npcs
 
-  def initialize(description:, name:, decorations: [], items: [], npcs: [])
+  def initialize(description:, exits:, name:, decorations: [], items: [], npcs: [])
     @description = description
+    @exits = exits
     @name = name
     @decorations = decorations
     @npcs = npcs
