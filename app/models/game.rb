@@ -26,31 +26,31 @@ class Game
             {
               name: 'scroll',
               score: 2,
-              description:"Parchment, definitely parchment. I'd recognize it anywhere.",
+              description: "Parchment, definitely parchment. I'd recognize it anywhere.",
               get: 'Ye takes the scroll and reads of it. It doth say: BEWARE, READER OF THE SCROLL, DANGER AWAITS TO THE- The SCROLL disappears in thy hands with ye olde ZAP!'
             },
             {
               name: 'scroll',
               score: -1,
-              description:'Ye seeth nothing wheretofore it went ZAP.',
+              description: 'Ye seeth nothing wheretofore it went ZAP.',
               get: 'Ye doth suffer from memory loss. YE SCROLL is no more. Honestly.'
             },
             {
               name: 'flask',
               score: 1,
-              description:'Looks like you could quaff some serious mead out of that thing.',
+              description: 'Looks like you could quaff some serious mead out of that thing.',
               get: 'Ye cannot get the FLASK. It is firmly bolted to a wall which is bolted to the rest of the dungeon which is probably bolted to a castle. Never you mind.'
             },
             {
               name: 'flask',
               score: 1,
-              description:'Looks like you could quaff some serious mead out of that thing.',
+              description: 'Looks like you could quaff some serious mead out of that thing.',
               get: 'Ye cannot get the FLASK. It is firmly bolted to a wall which is bolted to the rest of the dungeon which is probably bolted to a castle. Never you mind.'
             },
             {
               name: 'flask',
               score: -1000,
-              description:'Looks like you could quaff some serious mead out of that thing.',
+              description: 'Looks like you could quaff some serious mead out of that thing.',
               get: 'Okay, okay. You unbolt yon FLASK and hold it aloft. A great shaking begins. The dungeon ceiling collapses down on you, crushing you in twain. Apparently, this was a load-bearing FLASK. Your score was: ___ Play again? [Y/N]'
             }
           ],
