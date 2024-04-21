@@ -1,17 +1,18 @@
 # frozen_string_literal: true
 
-require_relative '../item'
+require_relative '../../app/models/item'
 
 RSpec.describe Item do
   context 'sanity checks' do
-    let(:look) { 'It looketh really nice.' }
+    let(:description) { 'It looketh really nice.' }
     let(:get) { 'You got it!' }
+    let(:name) { 'flask' }
     let(:score) { 10 }
-    let(:described_instance) { described_class.new(get:, look:, score:) }
+    let(:described_instance) { described_class.new(description:, get:, name:, score:) }
 
-    describe '#look' do
-      subject { described_instance.look }
-      it { is_expected.to eq look }
+    describe '#description' do
+      subject { described_instance.description }
+      it { is_expected.to eq description }
     end
 
     describe '#get' do

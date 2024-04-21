@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative '../item'
-require_relative '../player'
+require_relative '../../app/models/item'
+require_relative '../../app/models/player'
 
 RSpec.describe Player do
-  let(:item) { Item.new(get: 'You got it', look: 'You like it', score: 10) }
+  let(:item) { Item.new(description: 'You like it', get: 'You got it', name: 'flask' , score: 10) }
 
   context 'sanity checks' do
     let(:described_instance) { described_class.new(items:) }
