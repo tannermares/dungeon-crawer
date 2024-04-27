@@ -1,11 +1,6 @@
 # frozen_string_literal: true
 
-tmp = ''
+require_relative 'app/models/game'
 
-while tmp.chomp != 'exit'
-  print "What does thou doest?\n)"
-  tmp = gets
-  parsed = tmp.split(' ')
-  puts "action: #{parsed.first}"
-  puts "object: #{parsed[1]}"
-end
+game = Game.start
+game.play while game.playing?

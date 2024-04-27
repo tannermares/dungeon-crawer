@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require_relative '../../app/models/item'
+require_relative '../../app/models/npc'
+
 # A Room may have items and maybe special commands outside of normal game commands.
 class Room
   attr_accessor :description, :exits, :name, :items, :npcs

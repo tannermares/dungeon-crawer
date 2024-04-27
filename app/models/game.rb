@@ -1,38 +1,63 @@
 # frozen_string_literal: true
 
+require_relative '../../app/lib/parser/standard'
+require_relative '../../app/models/room'
+require_relative '../../app/models/player'
+
 # A Game in in charge of building Rooms, and a Player to play the game.
 # It takes a config that describes the game to be played.
 class Game
-  attr_accessor :config, :player, :rooms
+  attr_accessor :config, :input, :player, :rooms
 
-  def initialize(start:)
-    @start = start
+  def initialize(config:, player: Player.new)
+    @config = config
+    @player = player
+
+    @input = nil
   end
 
-  def start(player:)
-    @player = player
-    # actually start game?
+  def parse
+    action, object = parser.parse(input)
+    # game.send(action.to_sym, object)
+  end
+
+  def parser
+    @parser ||= Object.const_get("Parser::#{config[:parser].capitalize}").new
+  end
+
+  def play
+    print prompt
+    @input = gets.chomp
+    parse
+  end
+
+  def playing?
+    input != 'exit'
+  end
+
+  def prompt
+    "#{config[:prompt] || '>'} " # Trailing space is intentional
   end
 
   def self.from_config(config)
-    game = Game.new(start: config[:start])
-    game.rooms = config.map { |room| Room.from_config(room) }
+    game = Game.new(config:)
+    game.rooms = config[:rooms].map { |room| Room.from_config(room) }
     game
   end
 
-  def self.play(config: Config::THY_DUNGEONMAN)
-    game = from_config(config)
-    player = Player.new
-
-    game.start(player:)
+  def self.start(config: Config::THY_DUNGEONMAN)
+    from_config(config)
   end
 
   class Config
     THY_DUNGEONMAN = {
-      start: 'main',
+      parser: 'standard',
+      prompt: "What wouldst thou deau?\n>",
+      start: 'not dennis',
       rooms: [
         {
-          name: 'main',
+          coord: [0, 0],
+          name: 'not dennis',
           description: 'Ye find yeself in yon dungeon. Ye see a SCROLL. Behind ye scroll is a FLASK. Obvious exits are NORTH, SOUTH and DENNIS.',
           items: [
             {
@@ -70,6 +95,7 @@ class Game
           exits: %w[north south dennis]
         },
         {
+          coord: [0, 1],
           name: 'north',
           description: 'You go NORTH through yon corrider. You arrive at parapets. Ye see a rope. Obvious exits are SOUTH.',
           items: [
@@ -88,6 +114,7 @@ class Game
           exits: %w[south]
         },
         {
+          coord: [0, -1],
           name: 'south',
           description: "You head south to an enbankment. Or maybe a chasm. You can't decide which. Anyway, ye spies a TRINKET. Obvious exits are NORTH.",
           items: [
@@ -108,6 +135,7 @@ class Game
           exits: %w[north]
         },
         {
+          coord: [1, 0],
           name: 'dennis',
           description: 'Ye arrive at Dennis. He wears a sporty frock coat and a long jimberjam. He paces about nervously. Obvious exits are NOT DENNIS.',
           items: [],
