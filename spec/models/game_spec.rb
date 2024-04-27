@@ -29,8 +29,17 @@ RSpec.describe Game do
     end
 
     context 'with some input' do
-      let(:input) { 'Hello World!' }
-      it { expect(described_instance).to receive_message_chain(:parser, :parse).with(input) }
+      context 'with separate commands' do
+        let(:input) { 'go north' }
+        it { expect(described_instance).to receive_message_chain(:parser, :parse).with(input) }
+        it { expect(described_instance).to receive('go').with('north') }
+      end
+
+      context 'with single commands' do
+        let(:input) { 'north' }
+        it { expect(described_instance).to receive_message_chain(:parser, :parse).with(input) }
+        it { expect(described_instance).to receive('north') }
+      end
     end
   end
 

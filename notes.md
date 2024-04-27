@@ -1,8 +1,10 @@
 ## Goals For Today
+- [x] ~~Figure out how to initialize the game in the loop~~
+- [x] ~~Continuously feed game input~~
+
+## Tomorrow
 - [ ] Build input parser
   - [ ] Handle navigation commands
-- [x] Figure out how to initialize the game in the loop
-- [ ] Continuously feed game input
 
 # Todo
 - Change Config object to json file.

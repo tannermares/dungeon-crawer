@@ -18,7 +18,9 @@ class Game
 
   def parse
     action, object = parser.parse(input)
-    # game.send(action.to_sym, object)
+    return unless action
+
+    send(action.to_sym, object)
   end
 
   def parser
