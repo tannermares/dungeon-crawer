@@ -3,14 +3,25 @@
 # A Game in in charge of building Rooms, and a Player to play the game.
 # It takes a config that describes the game to be played.
 class Game
-  attr_reader :config
+  attr_accessor :config, :player, :rooms
 
-  def initialize(config:)
-    @config = config
+  def initialize(start:)
+    @start = start
   end
 
-  def self.play(config: Config.THY_DUNGEONMAN)
-    game = new(config:)
+  def start(player:)
+    @player = player
+    # actually start game?
+  end
+
+  def self.from_config(config)
+    game = Game.new(start: config[:start])
+    game.rooms = config.map { |room| Room.from_config(room) }
+    game
+  end
+
+  def self.play(config: Config::THY_DUNGEONMAN)
+    game = from_config(config)
     player = Player.new
 
     game.start(player:)
@@ -18,6 +29,7 @@ class Game
 
   class Config
     THY_DUNGEONMAN = {
+      start: 'main',
       rooms: [
         {
           name: 'main',
@@ -54,7 +66,6 @@ class Game
               get: 'Okay, okay. You unbolt yon FLASK and hold it aloft. A great shaking begins. The dungeon ceiling collapses down on you, crushing you in twain. Apparently, this was a load-bearing FLASK. Your score was: ___ Play again? [Y/N]'
             }
           ],
-          decorations: [],
           npcs: [],
           exits: %w[north south dennis]
         },
@@ -67,9 +78,7 @@ class Game
               score: -1,
               description: "It looks okay. You've seen better.",
               get: 'You attempt to take ye ROPE but alas it is enchanted! It glows a mustard red and smells like a public privy. The ROPE wraps round your neck and hangs you from parapets. With your last breath, you wonder what parapets are. GAME OVER. Your score was:__. Play again? (Y/N)'
-            }
-          ],
-          decorations: [
+            },
             {
               name: 'parapets',
               description: "Well, they're parapets. This much we know for sure."
@@ -95,7 +104,6 @@ class Game
               get: 'Sigh. The trinket is in thou pouchel. Recallest thou?'
             }
           ],
-          decorations: [],
           npcs: [],
           exits: %w[north]
         },
@@ -103,17 +111,17 @@ class Game
           name: 'dennis',
           description: 'Ye arrive at Dennis. He wears a sporty frock coat and a long jimberjam. He paces about nervously. Obvious exits are NOT DENNIS.',
           items: [],
-          decorations: [
-            {
-              name: 'jimberjam',
-              description: 'Man, that art a nice jimberjam.'
-            }
-          ],
           npcs: [
             {
               name: 'dennis',
               description: 'That jimberjam really makes the outfit.',
-              response: 'You engage Dennis in leisurely discussion. Ye learns that his jimberjam was purchased on sale at a discount market and that he enjoys pacing about nervously. You become bored and begin thinking about parapets.'
+              response: 'You engage Dennis in leisurely discussion. Ye learns that his jimberjam was purchased on sale at a discount market and that he enjoys pacing about nervously. You become bored and begin thinking about parapets.',
+              items: [
+                {
+                  name: 'jimberjam',
+                  description: 'Man, that art a nice jimberjam.'
+                }
+              ]
             }
           ],
           exits: ['not dennis']
