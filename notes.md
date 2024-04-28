@@ -1,6 +1,8 @@
+## Yesterday's Goals
+- [x] ~~Build input parser~~
+- [x] ~~Handle global commands~~
+
 ## Today's Goals
-- [x] Build input parser
-- [x] Handle global commands
 - [ ] Build Navigator
   - [ ] Switch room names for coords
 
