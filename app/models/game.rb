@@ -13,14 +13,27 @@ class Game
     @config = config
     @player = player
 
+    @current_room = config[:start]
     @input = nil
+    @introed = false
+  end
+
+  def intro
+    @introed = true
+    config[:intro]
+  end
+
+  def introed?
+    @introed
   end
 
   def parse
     action, object = parser.parse(input)
     return unless action
 
-    send(action.to_sym, object)
+    send(action, object)
+  rescue NoMethodError
+    puts config[:error]
   end
 
   def parser
@@ -28,8 +41,11 @@ class Game
   end
 
   def play
+    print intro unless introed?
     print prompt
     @input = gets.chomp
+    return if input == 'exit'
+
     parse
   end
 
@@ -38,12 +54,20 @@ class Game
   end
 
   def prompt
-    "#{config[:prompt] || '>'} " # Trailing space is intentional
+    "\n#{config[:prompt]} (score: #{player.score})\n> " # Trailing space is intentional
   end
 
   def self.from_config(config)
     game = Game.new(config:)
-    game.rooms = config[:rooms].map { |room| Room.from_config(room) }
+
+    config[:actions]&.each do |action, object|
+      define_method(action) do |_ = nil|
+        player.score += object[:score]
+        puts object[:result]
+      end
+    end
+
+    game.rooms = config[:rooms]&.map { |room| Room.from_config(room) }
     game
   end
 
@@ -53,14 +77,59 @@ class Game
 
   class Config
     THY_DUNGEONMAN = {
+      error: 'That does not computeth. Type HELP is thou needs of it.',
       parser: 'standard',
-      prompt: "What wouldst thou deau?\n>",
-      start: 'not dennis',
+      intro: "THY DUNGEONMAN\n\nYOU ARE THY DUNGEONMAN!\n\n",
+      prompt: 'What wouldst thou deau?',
+      start: [0, 0],
+      items: [
+        {
+          name: 'dagger',
+          count: 999,
+          score: 25,
+          result: 'Yeah, okay.'
+        }
+      ],
+      actions: {
+        dance: {
+          score: 0,
+          result: 'Thou shaketh it a little, and it feeleth all right.'
+        },
+        die: {
+          score: -100,
+          result: "That wasn't very smart. Your score was: {{player.score}}. Play again? [Y/N]"
+        },
+        smell: {
+          score: 0,
+          result: 'You smell a Wumpus.'
+        },
+        sniff: {
+          score: 0,
+          result: 'You smell a Wumpus.'
+        }
+        # get: {
+        #   dagger: {
+        #     score: 25,
+        #     result: 'Yeah, okay.'
+        # }
+      },
       rooms: [
         {
           coord: [0, 0],
           name: 'not dennis',
           description: 'Ye find yeself in yon dungeon. Ye see a SCROLL. Behind ye scroll is a FLASK. Obvious exits are NORTH, SOUTH and DENNIS.',
+          # actions: {
+          #   look: {
+          #     default: 'Ye find yeself in yon dungeon. Ye see a SCROLL. Behind ye scroll is a FLASK. Obvious exits are NORTH, SOUTH and DENNIS.',
+          #     scroll: "Parchment, definitely parchment. I'd recognize it anywhere."
+          #   },
+          #   get: {
+          #     scroll: {
+          #       score: 2,
+          #       result: "Ye takes the scroll and reads of it. It doth say: BEWARE, READER OF THE SCROLL, DANGER AWAITS TO THE- The SCROLL disappears in thy hands with ye olde ZAP!"
+          #     }
+          #   }
+          # },
           items: [
             {
               name: 'scroll',

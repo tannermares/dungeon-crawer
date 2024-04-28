@@ -7,9 +7,9 @@ module Parser
   class Standard
     def parse(input)
       tokens = input.split(' ')
-      action = tokens[0]
-      object = tokens[1..].join(' ')
-      [action, object]
+      action = tokens[0].downcase.to_sym
+      object = tokens[1..].join(' ').downcase
+      [action, object.empty? ? nil : object]
     end
   end
 end
